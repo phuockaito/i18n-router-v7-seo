@@ -5,13 +5,14 @@ import { LANGUAGE_METADATA } from "@/constants";
 
 const languages = Object.values(LANGUAGE_METADATA);
 export function LanguageSwitcher() {
+    const { t } = useTranslation();
     const location = useLocation();
     const { i18n } = useTranslation();
     return (
         <Form
             method="get"
             replace
-            action={location.pathname}
+            action={t(location.pathname as any)}
             className="flex items-center space-x-2"
         >
             <div className="flex space-x-1">
