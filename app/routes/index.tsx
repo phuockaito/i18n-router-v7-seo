@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 
+import { review } from "@/assets";
 import { LinkLocalized } from "@/components/link-localized";
 import { i18nextMiddleware } from "@/middleware/i18next";
 import type { MusicType } from "@/types";
@@ -12,7 +13,7 @@ export function meta({ loaderData }: Route.MetaArgs) {
         { name: "description", content: loaderData.description },
         { property: "og:title", content: loaderData.title },
         { property: "og:description", content: loaderData.description },
-        { name: "og:image", content: "./review.jpg" },
+        { name: "og:image", content: review },
     ];
 }
 
