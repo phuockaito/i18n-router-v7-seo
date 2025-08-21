@@ -1,5 +1,6 @@
 import { Outlet } from "react-router";
 
+import { review } from "@/assets";
 import { i18nextMiddleware } from "@/middleware/i18next";
 
 import type { Route } from "../+types";
@@ -9,6 +10,7 @@ export function meta({ loaderData }: Route.MetaArgs) {
         { name: "description", content: loaderData.description },
         { property: "og:title", content: loaderData.title },
         { property: "og:description", content: loaderData.description },
+        { name: "og:image", content: review },
     ];
 }
 
