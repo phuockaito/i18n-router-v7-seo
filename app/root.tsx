@@ -1,10 +1,10 @@
 import "./app.css";
 
 import { useTranslation } from "react-i18next";
-import { data, Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
+import { data, Links, Meta, Outlet, Scripts, ScrollRestoration, useNavigation } from "react-router";
 
 import { review } from "@/assets";
-import { LanguageSwitcher } from "@/components";
+import { LanguageSwitcher, TopLoader } from "@/components";
 import { i18nextMiddleware } from "@/middleware/i18next";
 import { LanguageType } from "@/types";
 
@@ -66,6 +66,8 @@ interface LayoutProps {
 
 export function Layout({ children }: LayoutProps) {
     const { i18n } = useTranslation();
+    const navigation = useNavigation();
+    const isNavigating = Boolean(navigation.location);
 
     return (
         <html lang={i18n.language} dir={i18n.dir(i18n.language)}>
@@ -76,6 +78,7 @@ export function Layout({ children }: LayoutProps) {
                 <Links />
             </head>
             <body>
+                <TopLoader isLoading={isNavigating} />
                 <div className="max-w-screen-xl mx-auto px-4 py-8">
                     <header className="mb-8">
                         <div className="flex justify-between items-center">
