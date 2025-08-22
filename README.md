@@ -40,7 +40,7 @@ pnpm start
 
 - `app/root.tsx`: đăng ký middleware i18n, `meta()`, layout, `LanguageSwitcher`
 - `app/entry.server.tsx`: SSR với `I18nextProvider` + `ServerRouter`
-- `app/entry.client.tsx`: hydrate với `i18next-fetch-backend` gọi API dịch
+- `app/entry.client.tsx`: hydrate với `I18nextProvider` + `ClientRouter`
 - `app/middleware/i18next.ts`: tạo instance i18n server, phát hiện ngôn ngữ
 - `app/constants/index.ts`: `DEFAULT_LANGUAGE`, `SUPPORTED_LANGUAGES`, `LANGUAGE_METADATA`, `CACHE_CONFIG`, `API_CONFIG`, `DOMAIN`
 - `app/locales/`: nguồn dịch `en`, `vi` và `index.ts` tập hợp `Resource`
@@ -112,16 +112,16 @@ Các đường dẫn được định nghĩa bằng key trong file dịch và đ
 ```ts
 // app/locales/en/translation.ts
 export default {
-  "/": "/",
-  "/about-us": "/about-us",
-  // ...
+    "/": "/",
+    "/about-us": "/about-us",
+    // ...
 };
 
 // app/locales/vi/translation.ts
 export default {
-  "/": "/",
-  "/about-us": "/gioi-thieu",
-  // ...
+    "/": "/",
+    "/about-us": "/gioi-thieu",
+    // ...
 };
 ```
 
@@ -129,7 +129,9 @@ Dùng `LinkLocalized` để sinh URL đúng theo ngôn ngữ hiện tại:
 
 ```tsx
 // Ví dụ
-<LinkLocalized to="/about-us" className="text-blue-500">Về chúng tôi</LinkLocalized>
+<LinkLocalized to="/about-us" className="text-blue-500">
+    Về chúng tôi
+</LinkLocalized>
 ```
 
 Hoặc dùng hook `useLocalizedPath` nếu cần xử lý `to` thủ công:
@@ -146,7 +148,7 @@ const to = localizedPath("/about-us");
 
 ## API dịch và cache
 
-- Endpoint: ``/api/locales/:lng/:ns`` (ví dụ: `/api/locales/en/translation`)
+- Endpoint: `/api/locales/:lng/:ns` (ví dụ: `/api/locales/en/translation`)
 - Kiểm tra `:lng` có trong `SUPPORTED_LANGUAGES` và `:ns` có trong `SUPPORTED_NAMESPACES`.
 - Trả JSON kèm header `ETag`, `Cache-Control: public, max-age=..., stale-while-revalidate=...` (cấu hình tại `CACHE_CONFIG`).
 
@@ -158,19 +160,23 @@ const to = localizedPath("/about-us");
 ## Tuỳ biến cấu hình i18n
 
 - File: `app/constants/index.ts`
-  - `DEFAULT_LANGUAGE`: ngôn ngữ mặc định (mặc định `vi`)
-  - `SUPPORTED_LANGUAGES`: danh sách ngôn ngữ hỗ trợ (mặc định `vi`, `en`)
-  - `SUPPORTED_NAMESPACES`: namespaces dịch (mặc định `translation`)
-  - `LANGUAGE_METADATA`: tên, cờ, code cho từng ngôn ngữ
-  - `CACHE_CONFIG`: TTL và `stale-while-revalidate` cho API dịch
-  - `API_CONFIG`: base path API dịch
+    - `DEFAULT_LANGUAGE`: ngôn ngữ mặc định (mặc định `vi`)
+    - `SUPPORTED_LANGUAGES`: danh sách ngôn ngữ hỗ trợ (mặc định `vi`, `en`)
+    - `SUPPORTED_NAMESPACES`: namespaces dịch (mặc định `translation`)
+    - `LANGUAGE_METADATA`: tên, cờ, code cho từng ngôn ngữ
+    - `CACHE_CONFIG`: TTL và `stale-while-revalidate` cho API dịch
+    - `API_CONFIG`: base path API dịch
 
 ### Thêm ngôn ngữ mới (ví dụ: `fr`)
 
 1. Cập nhật enum tại `app/types/language.ts`:
 
 ```ts
-export enum LanguageType { VI = "vi", EN = "en", FR = "fr" }
+export enum LanguageType {
+    VI = "vi",
+    EN = "en",
+    FR = "fr",
+}
 ```
 
 2. Bổ sung vào `SUPPORTED_LANGUAGES` và `LANGUAGE_METADATA` trong `app/constants/index.ts`.
