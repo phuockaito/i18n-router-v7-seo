@@ -99,7 +99,7 @@ export function Layout({ children }: LayoutProps) {
     );
 }
 
-export default function App({ loaderData }: { loaderData: { locale?: LanguageType } }) {
+export default function App({ loaderData }: Route.ComponentProps) {
     const { i18n } = useTranslation();
 
     if (loaderData.locale && i18n.language !== loaderData.locale) {
