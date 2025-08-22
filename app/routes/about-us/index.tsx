@@ -14,7 +14,7 @@ export default function AboutUs() {
             <div className="flex flex-col gap-2 items-center justify-center">
                 <h1>{t("About Us")}</h1>
                 <Link
-                    to="https://github.com/phuockaito/i18n-router-v7-seo"
+                    to="https://github.com/phuockaito/i18n-router-v7-seo/tree/translate-v1"
                     target="_blank"
                     className="hover:text-blue-600 hover:underline font-bold"
                 >
