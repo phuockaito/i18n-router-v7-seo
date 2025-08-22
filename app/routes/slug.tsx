@@ -7,7 +7,7 @@ import type { MusicType } from "@/types";
 
 import type { Route } from "./+types/slug";
 
-export function meta({ loaderData }: { loaderData: MusicType | null }) {
+export function meta({ loaderData }: Route.ComponentProps) {
     return loaderData
         ? [
             { title: loaderData.name_music },
@@ -29,7 +29,7 @@ export function meta({ loaderData }: { loaderData: MusicType | null }) {
             { name: "og:url", content: "" },
         ];
 }
-export async function loader({ params }: Route.LoaderArgs) {
+export async function loader({ params }: Route.LoaderArgs): Promise<MusicType | null> {
     const response = await fetch(
         `https://v2-api-kaito-music.vercel.app/api/music/get-music-name?_name=${params.slug}`,
     );
