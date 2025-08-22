@@ -1,5 +1,4 @@
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router";
 
 import { LinkLocalized } from "@/components";
 import { DOMAIN } from "@/constants";
@@ -7,7 +6,13 @@ import type { MusicType } from "@/types";
 
 import type { Route } from "./+types";
 
-export function meta({ loaderData }: { loaderData: MusicType | null }) {
+export function meta({
+    loaderData,
+    params,
+}: {
+    loaderData: MusicType | null;
+    params: { lng?: string };
+}) {
     return loaderData
         ? [
               { title: loaderData.name_music },
@@ -15,7 +20,7 @@ export function meta({ loaderData }: { loaderData: MusicType | null }) {
               { name: "og:image", content: loaderData.image_music },
               { name: "og:title", content: loaderData.name_music },
               { name: "og:description", content: loaderData.name_music },
-              { name: "og:url", content: `${DOMAIN}/${loaderData.slug_name_music}` },
+              { name: "og:url", content: `${DOMAIN}/${params.lng}/${loaderData.slug_name_music}` },
               { name: "og:type", content: "website" },
               { name: "og:site_name", content: "Kaito Music" },
               { name: "og:locale", content: "en_US" },
@@ -26,10 +31,12 @@ export function meta({ loaderData }: { loaderData: MusicType | null }) {
               { name: "og:image", content: "" },
               { name: "og:title", content: "Music not found" },
               { name: "og:description", content: "Music not found" },
-              { name: "og:url", content: "" },
+              { name: "og:url", content: `${DOMAIN}/${params.lng}` },
           ];
 }
-export async function loader({ params }: Route.LoaderArgs & { params: { slug: string } }) {
+export async function loader({
+    params,
+}: Route.LoaderArgs & { params: { slug: string; lng: string } }) {
     const response = await fetch(
         `https://v2-api-kaito-music.vercel.app/api/music/get-music-name?_name=${params.slug}`,
     );
@@ -42,9 +49,9 @@ export default function Home({ loaderData }: { loaderData: MusicType | null }) {
     if (!loaderData) {
         return (
             <div className="flex flex-col items-center justify-center h-screen">
-                <Link to="/" className="text-blue-500">
-                    Home
-                </Link>
+                <LinkLocalized to="/" className="text-blue-500">
+                    {t("Home")}
+                </LinkLocalized>
                 <h1>Music not found</h1>
             </div>
         );

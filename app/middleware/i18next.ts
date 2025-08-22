@@ -35,15 +35,21 @@ export function createI18nextInstance(locale: string = DEFAULT_LANGUAGE) {
 
 // Get locale from request headers or URL parameter
 export function getLocaleFromRequest(request: Request): string {
-    // Check URL parameter first (for SEO and deep linking)
     const url = new URL(request.url);
-    const lngParam = url.searchParams.get("lng");
 
+    // 1) Detect from leading path segment: /vi/... or /en/...
+    const [, firstSegment] = url.pathname.split("/");
+    if (firstSegment && SUPPORTED_LANGUAGES.includes(firstSegment as any)) {
+        return firstSegment;
+    }
+
+    // 2) Fallback: query param ?lng=vi|en (back-compat)
+    const lngParam = url.searchParams.get("lng");
     if (lngParam && SUPPORTED_LANGUAGES.includes(lngParam as any)) {
         return lngParam;
     }
 
-    // Check Accept-LanguageType header as fallback
+    // 3) Fallback: Accept-Language header
     const acceptLanguage = request.headers.get("accept-language");
     if (acceptLanguage) {
         const languages = acceptLanguage.split(",").map((lang) => lang.split(";")[0].trim());
@@ -55,7 +61,8 @@ export function getLocaleFromRequest(request: Request): string {
         }
     }
 
-    return DEFAULT_LANGUAGE; // Default fallback
+    // 4) Default
+    return DEFAULT_LANGUAGE;
 }
 
 // Middleware function for React Router v7

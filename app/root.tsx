@@ -32,7 +32,6 @@ export async function loader({ request }: Route.LoaderArgs) {
         { locale },
         {
             headers: {
-                "Set-Cookie": locale,
                 "X-LanguageType": locale,
             },
         },
@@ -100,6 +99,12 @@ export function Layout({ children }: LayoutProps) {
     );
 }
 
-export default function App() {
+export default function App({ loaderData }: { loaderData: { locale?: LanguageType } }) {
+    const { i18n } = useTranslation();
+
+    if (loaderData.locale && i18n.language !== loaderData.locale) {
+        i18n.changeLanguage(loaderData.locale);
+    }
+
     return <Outlet />;
 }

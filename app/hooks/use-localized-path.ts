@@ -5,11 +5,11 @@ import { useLocation } from "react-router";
 import enTranslation from "@/locales/en/translation";
 
 export const useLocalizedPath = () => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const { search } = useLocation();
     type TranslationKey = keyof typeof enTranslation;
-    const localizedPath = (path: TranslationKey) => `${t(path)}${search}` as To;
-    return {
-        localizedPath,
-    };
+
+    const localizedPath = (path: TranslationKey) => `/${i18n.language}${t(path)}${search}` as To;
+
+    return { localizedPath };
 };

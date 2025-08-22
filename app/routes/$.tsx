@@ -44,7 +44,7 @@ export async function loader({
             "Content-Type": "application/json",
             "Cache-Control": `public, max-age=${CACHE_CONFIG.MAX_AGE}, stale-while-revalidate=${CACHE_CONFIG.STALE_WHILE_REVALIDATE}`,
             ETag: etag,
-            Vary: "Accept-LanguageType",
+            Vary: "Accept-Language",
         },
     });
 }

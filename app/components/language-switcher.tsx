@@ -5,24 +5,22 @@ import { LANGUAGE_METADATA } from "@/constants";
 
 const languages = Object.values(LANGUAGE_METADATA);
 export function LanguageSwitcher() {
-    const { t } = useTranslation();
-    const location = useLocation();
-    const { i18n } = useTranslation();
+    const { t, i18n } = useTranslation();
+    const { pathname } = useLocation();
+
+    const stripLeadingLng = (pathname: string) => `/${pathname.split("/").slice(2).join("/")}`;
     return (
-        <Form
-            method="get"
-            replace
-            action={t(location.pathname as any)}
-            className="flex items-center space-x-2"
-        >
+        <Form method="get" replace className="flex items-center space-x-2">
             <div className="flex space-x-1">
                 {languages.map((lang) => (
                     <button
                         key={lang.code}
-                        type="submit"
-                        name="lng"
-                        onClick={() => i18n.changeLanguage(lang.code)}
-                        value={lang.code}
+                        onClick={(e) => {
+                            e.currentTarget.form?.setAttribute(
+                                "action",
+                                `/${lang.code}${t(stripLeadingLng(pathname) as any)}`,
+                            );
+                        }}
                         className={`px-3 py-1 rounded-md text-sm font-medium transition-colors cursor-pointer ${
                             i18n.language === lang.code
                                 ? "bg-blue-500 text-white"
