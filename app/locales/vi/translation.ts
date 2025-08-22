@@ -9,5 +9,4 @@ export default {
     "What to expect from this version": "Những gì bạn có thể mong đợi từ phiên bản này",
     "/": "/",
     "Go to Github": "Đi đến Github",
-    "/gioi-thieu": "/about-us",
 };

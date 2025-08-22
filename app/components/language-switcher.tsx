@@ -1,26 +1,31 @@
 import { useTranslation } from "react-i18next";
-import { Form, useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 
 import { LANGUAGE_METADATA } from "@/constants";
 
 const languages = Object.values(LANGUAGE_METADATA);
 export function LanguageSwitcher() {
-    const { t, i18n } = useTranslation();
+    const { i18n } = useTranslation();
     const { pathname } = useLocation();
+    const navigate = useNavigate();
 
-    const stripLeadingLng = (pathname: string) => `/${pathname.split("/").slice(2).join("/")}`;
+    const getPathWithoutLanguage = (pathname: string) => {
+        const pathParts = pathname.split("/");
+        return "/" + pathParts.slice(2).join("/");
+    };
+    const handleLanguageChange = (languageCode: string) => {
+        const pathWithoutLang = getPathWithoutLanguage(pathname);
+        const newPath = `/${languageCode}${pathWithoutLang}`;
+        navigate(newPath);
+    };
+
     return (
-        <Form method="get" replace className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2">
             <div className="flex space-x-1">
                 {languages.map((lang) => (
                     <button
                         key={lang.code}
-                        onClick={(e) => {
-                            e.currentTarget.form?.setAttribute(
-                                "action",
-                                `/${lang.code}${t(stripLeadingLng(pathname) as any)}`,
-                            );
-                        }}
+                        onClick={() => handleLanguageChange(lang.code)}
                         className={`px-3 py-1 rounded-md text-sm font-medium transition-colors cursor-pointer ${
                             i18n.language === lang.code
                                 ? "bg-blue-500 text-white"
@@ -33,6 +38,6 @@ export function LanguageSwitcher() {
                     </button>
                 ))}
             </div>
-        </Form>
+        </div>
     );
 }

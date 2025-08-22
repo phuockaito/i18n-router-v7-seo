@@ -9,5 +9,4 @@ export default {
     "What to expect from this version": "What to expect from this version",
     "/": "/",
     "Go to Github": "Go to Github",
-    "/gioi-thieu": "/about-us",
 };

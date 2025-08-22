@@ -2,7 +2,6 @@ import { index, layout, route, type RouteConfig } from "@react-router/dev/routes
 
 export default [
     index("routes/root-redirect.tsx"),
-
     route(":lng", "routes/index.tsx"),
     route(":lng/:slug", "routes/slug.tsx"),
     layout("./routes/about-us/layout.tsx", [
