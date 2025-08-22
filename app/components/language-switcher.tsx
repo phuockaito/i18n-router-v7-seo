@@ -21,13 +21,11 @@ export function LanguageSwitcher() {
                         key={lang.code}
                         type="submit"
                         name="lng"
-                        onClick={() => i18n.changeLanguage(lang.code)}
                         value={lang.code}
-                        className={`px-3 py-1 rounded-md text-sm font-medium transition-colors cursor-pointer ${
-                            i18n.language === lang.code
-                                ? "bg-blue-500 text-white"
-                                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                        }`}
+                        className={`px-3 py-1 rounded-md text-sm font-medium transition-colors cursor-pointer ${i18n.language === lang.code
+                            ? "bg-blue-500 text-white"
+                            : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                            }`}
                         title={lang.name}
                     >
                         <span className="mr-1">{lang.flag}</span>

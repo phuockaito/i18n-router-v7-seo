@@ -100,6 +100,12 @@ export function Layout({ children }: LayoutProps) {
     );
 }
 
-export default function App() {
+export default function App({ loaderData }: Route.ComponentProps) {
+    const { i18n } = useTranslation();
+
+    if (loaderData.locale && i18n.language !== loaderData.locale) {
+        i18n.changeLanguage(loaderData.locale);
+    }
+
     return <Outlet />;
 }
