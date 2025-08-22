@@ -4,7 +4,7 @@ import { LinkLocalized } from "@/components";
 import { DOMAIN } from "@/constants";
 import type { MusicType } from "@/types";
 
-import type { Route } from "./+types";
+import type { Route } from "./+types/slug";
 
 export function meta({
     loaderData,
@@ -15,28 +15,28 @@ export function meta({
 }) {
     return loaderData
         ? [
-              { title: loaderData.name_music },
-              { name: "description", content: loaderData.name_music },
-              { name: "og:image", content: loaderData.image_music },
-              { name: "og:title", content: loaderData.name_music },
-              { name: "og:description", content: loaderData.name_music },
-              { name: "og:url", content: `${DOMAIN}/${params.lng}/${loaderData.slug_name_music}` },
-              { name: "og:type", content: "website" },
-              { name: "og:site_name", content: "Kaito Music" },
-              { name: "og:locale", content: "en_US" },
-          ]
+            { title: loaderData.name_music },
+            { name: "description", content: loaderData.name_music },
+            { name: "og:image", content: loaderData.image_music },
+            { name: "og:title", content: loaderData.name_music },
+            { name: "og:description", content: loaderData.name_music },
+            { name: "og:url", content: `${DOMAIN}/${params.lng}/${loaderData.slug_name_music}` },
+            { name: "og:type", content: "website" },
+            { name: "og:site_name", content: "Kaito Music" },
+            { name: "og:locale", content: "en_US" },
+        ]
         : [
-              { title: "Music not found" },
-              { name: "description", content: "Music not found" },
-              { name: "og:image", content: "" },
-              { name: "og:title", content: "Music not found" },
-              { name: "og:description", content: "Music not found" },
-              { name: "og:url", content: `${DOMAIN}/${params.lng}` },
-          ];
+            { title: "Music not found" },
+            { name: "description", content: "Music not found" },
+            { name: "og:image", content: "" },
+            { name: "og:title", content: "Music not found" },
+            { name: "og:description", content: "Music not found" },
+            { name: "og:url", content: `${DOMAIN}/${params.lng}` },
+        ];
 }
 export async function loader({
     params,
-}: Route.LoaderArgs & { params: { slug: string; lng: string } }) {
+}: Route.LoaderArgs) {
     const response = await fetch(
         `https://v2-api-kaito-music.vercel.app/api/music/get-music-name?_name=${params.slug}`,
     );
