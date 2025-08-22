@@ -1,6 +1,6 @@
 ## I18Next + React Router v7 (SEO)
 
-Mẫu ứng dụng React Router v7 bật SSR, đa ngôn ngữ với i18next (Server + Client), URL được bản địa hóa bằng key translation, và tối ưu SEO (meta/OG tags, cache dịch). Dự án dùng Vite, Tailwind v4 plugin, TypeScript.
+Mẫu ứng dụng React Router v7 bật SSR, đa ngôn ngữ với i18next (Server + Client), URL được bản địa hóa bằng key translation, và tối ưu SEO (meta/OG tags, cache dịch). Dự án dùng Vite, Tailwind v4 plugin, TypeScript
 
 ### Tính năng chính
 
