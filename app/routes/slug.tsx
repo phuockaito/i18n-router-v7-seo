@@ -44,7 +44,7 @@ export async function loader({
     return data;
 }
 
-export default function Home({ loaderData }: { loaderData: MusicType | null }) {
+export default function Home({ loaderData }: Route.ComponentProps) {
     const { t } = useTranslation();
     if (!loaderData) {
         return (
