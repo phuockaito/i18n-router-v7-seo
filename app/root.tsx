@@ -1,3 +1,4 @@
+import "@ant-design/v5-patch-for-react-19";
 import "./app.css";
 
 import { useTranslation } from "react-i18next";
@@ -5,11 +6,12 @@ import { data, Links, Meta, Outlet, Scripts, ScrollRestoration, useNavigation } 
 
 import { review } from "@/assets";
 import { LanguageSwitcher, TopLoader } from "@/components";
+import { DOMAIN } from "@/constants";
 import { i18nextMiddleware } from "@/middleware/i18next";
+import { Provider } from "@/provider";
 import { LanguageType } from "@/types";
 
 import type { Route } from "./+types/root";
-import { DOMAIN } from "./constants";
 
 export const unstable_middleware = [i18nextMiddleware];
 export function meta() {
@@ -91,7 +93,7 @@ export function Layout({ children }: LayoutProps) {
                             <LanguageSwitcher />
                         </div>
                     </header>
-                    {children}
+                    <Provider>{children}</Provider>
                 </div>
                 <ScrollRestoration />
                 <Scripts />

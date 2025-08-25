@@ -1,11 +1,10 @@
 import { useTranslation } from "react-i18next";
 
+import { MusicApi } from "@/api";
 import { review } from "@/assets";
 import { LinkLocalized } from "@/components/link-localized";
 import { i18nextMiddleware } from "@/middleware/i18next";
 import type { MusicType } from "@/types";
-
-import type { Route } from "./+types";
 
 export function meta({ loaderData }: Route.MetaArgs) {
     return [
@@ -17,19 +16,34 @@ export function meta({ loaderData }: Route.MetaArgs) {
     ];
 }
 
-export async function loader({ request }: Route.LoaderArgs) {
+export async function loader({ request }: Route.LoaderArgs): Promise<{
+    title: string;
+    description: string;
+    data: MusicType[];
+}> {
     const { t } = i18nextMiddleware(request);
-    const response = await fetch(
-        "https://v2-api-kaito-music.vercel.app/api/music/top-views?_limit=50&_type=million",
-    );
-    const { data } = await response.json();
-    return {
-        title: t("Home"),
-        description: t("Home"),
-        data,
-    };
+    const session = await getSession(request.headers.get("Cookie"));
+    const accessToken = session.get("accessToken");
+    console.log("accessToken", accessToken);
+    try {
+        const { data } = await MusicApi.getTopViews();
+        return {
+            title: t("Home"),
+            description: t("Home"),
+            data,
+        };
+    } catch {
+        return {
+            title: t("Home"),
+            description: t("Home"),
+            data: [],
+        };
+    }
 }
 
+import { getSession } from "@/sessions.server";
+
+import type { Route } from "./+types";
 export default function Index({ loaderData }: Route.ComponentProps) {
     const { t } = useTranslation();
     return (

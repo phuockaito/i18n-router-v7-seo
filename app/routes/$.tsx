@@ -1,7 +1,6 @@
 import { CACHE_CONFIG, SUPPORTED_LANGUAGES, SUPPORTED_NAMESPACES } from "@/constants";
+import resources from "@/locales";
 import type { LanguageType } from "@/types";
-
-import resources from "../locales";
 
 export async function loader({
     params,
