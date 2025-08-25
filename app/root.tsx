@@ -12,6 +12,8 @@ import { Provider } from "@/provider";
 import { LanguageType } from "@/types";
 
 import type { Route } from "./+types/root";
+import { AccountApi } from "./api";
+import { getSession } from "./sessions.server";
 
 export const unstable_middleware = [i18nextMiddleware];
 export function meta() {
@@ -30,8 +32,15 @@ export function meta() {
 
 export async function loader({ request }: Route.LoaderArgs) {
     const { locale } = i18nextMiddleware(request);
+    const session = await getSession(request.headers.get("Cookie"));
+    const accessToken = session.get("accessToken");
+    const profile = await AccountApi.getProfile(accessToken);
     return data(
-        { locale },
+        {
+            locale,
+            accessToken,
+            profile,
+        },
         {
             headers: {
                 "Set-Cookie": locale,
