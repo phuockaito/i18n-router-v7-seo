@@ -1,6 +1,7 @@
 import "@ant-design/v5-patch-for-react-19";
 import "./app.css";
 
+import { Spin } from "antd";
 import { useTranslation } from "react-i18next";
 import { data, Links, Meta, Outlet, Scripts, ScrollRestoration, useNavigation } from "react-router";
 
@@ -28,6 +29,10 @@ export function meta() {
         { name: "og:site_name", content: "I18Next React Router v7 (SEO)" },
         { name: "og:locale", content: "en_US" },
     ];
+}
+
+export function HydrateFallback() {
+    return <Spin size="large" fullscreen />;
 }
 
 export async function loader({ request }: Route.LoaderArgs) {
