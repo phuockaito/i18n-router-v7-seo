@@ -1,7 +1,6 @@
 import "@ant-design/v5-patch-for-react-19";
 import "./app.css";
 
-import { Spin } from "antd";
 import { useTranslation } from "react-i18next";
 import { data, Links, Meta, Outlet, Scripts, ScrollRestoration, useNavigation } from "react-router";
 
@@ -13,8 +12,6 @@ import { Provider } from "@/provider";
 import { LanguageType } from "@/types";
 
 import type { Route } from "./+types/root";
-import { AccountApi } from "./api";
-import { getSession } from "./sessions.server";
 
 export const unstable_middleware = [i18nextMiddleware];
 export function meta() {
@@ -30,21 +27,11 @@ export function meta() {
         { name: "og:locale", content: "en_US" },
     ];
 }
-
-export function HydrateFallback() {
-    return <Spin size="large" fullscreen />;
-}
-
 export async function loader({ request }: Route.LoaderArgs) {
     const { locale } = i18nextMiddleware(request);
-    const session = await getSession(request.headers.get("Cookie"));
-    const accessToken = session.get("accessToken");
-    const profile = await AccountApi.getProfile(accessToken);
     return data(
         {
             locale,
-            accessToken,
-            profile,
         },
         {
             headers: {
