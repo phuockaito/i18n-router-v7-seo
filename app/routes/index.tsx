@@ -38,8 +38,6 @@ export async function loader({ request }: Route.LoaderArgs): Promise<{
     }
 }
 
-import { getSession } from "@/sessions.server";
-
 import type { Route } from "./+types";
 export default function Index({ loaderData }: Route.ComponentProps) {
     const { t } = useTranslation();
