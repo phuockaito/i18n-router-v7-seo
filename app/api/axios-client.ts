@@ -2,7 +2,7 @@ import axios, { AxiosError, type AxiosResponse, type InternalAxiosRequestConfig 
 import queryString from "query-string";
 
 export const axiosClient = axios.create({
-    baseURL: typeof window !== "undefined" ? "/api" : import.meta.env.VITE_APP_URL_API || "",
+    baseURL: import.meta.env.VITE_APP_URL_API,
     headers: {
         "content-type": "application/json",
     },
