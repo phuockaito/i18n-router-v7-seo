@@ -1,10 +1,6 @@
 {
     "rewrites": [
         {
-            "source": "/api/:match*",
-            "destination": "https://v2-api-kaito-music.vercel.app/:match*"
-        },
-        {
             "source": "/:match*",
             "destination": "/"
         }
