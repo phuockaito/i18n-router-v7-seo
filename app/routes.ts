@@ -2,7 +2,6 @@ import { index, layout, route, type RouteConfig } from "@react-router/dev/routes
 
 export default [
     index("routes/index.tsx"),
-    route("api/locales/:lng/:ns", "routes/$.tsx"),
     route(":slug", "routes/slug.tsx"),
     route("/login", "routes/login/index.tsx"),
     layout("./routes/about-us/layout.tsx", [
