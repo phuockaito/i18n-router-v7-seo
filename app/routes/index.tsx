@@ -22,9 +22,6 @@ export async function loader({ request }: Route.LoaderArgs): Promise<{
     data: MusicType[];
 }> {
     const { t } = i18nextMiddleware(request);
-    const session = await getSession(request.headers.get("Cookie"));
-    const accessToken = session.get("accessToken");
-    console.log("accessToken", accessToken);
     try {
         const { data } = await MusicApi.getTopViews();
         return {
