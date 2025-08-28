@@ -11,24 +11,24 @@ import type { Route } from "./+types/slug";
 export function meta({ loaderData }: Route.ComponentProps) {
     return loaderData
         ? [
-              { title: loaderData.name_music },
-              { name: "description", content: loaderData.name_music },
-              { name: "og:image", content: loaderData.image_music },
-              { name: "og:title", content: loaderData.name_music },
-              { name: "og:description", content: loaderData.name_music },
-              { name: "og:url", content: `${DOMAIN}/${loaderData.slug_name_music}` },
-              { name: "og:type", content: "website" },
-              { name: "og:site_name", content: "Kaito Music" },
-              { name: "og:locale", content: "en_US" },
-          ]
+            { title: loaderData.name_music },
+            { name: "description", content: loaderData.name_music },
+            { name: "og:image", content: loaderData.image_music },
+            { name: "og:title", content: loaderData.name_music },
+            { name: "og:description", content: loaderData.name_music },
+            { name: "og:url", content: `${DOMAIN}/${loaderData.slug_name_music}` },
+            { name: "og:type", content: "website" },
+            { name: "og:site_name", content: "Kaito Music" },
+            { name: "og:locale", content: "en_US" },
+        ]
         : [
-              { title: "Music not found" },
-              { name: "description", content: "Music not found" },
-              { name: "og:image", content: "" },
-              { name: "og:title", content: "Music not found" },
-              { name: "og:description", content: "Music not found" },
-              { name: "og:url", content: "" },
-          ];
+            { title: "Music not found" },
+            { name: "description", content: "Music not found" },
+            { name: "og:image", content: "" },
+            { name: "og:title", content: "Music not found" },
+            { name: "og:description", content: "Music not found" },
+            { name: "og:url", content: "" },
+        ];
 }
 export async function loader({ params }: Route.LoaderArgs): Promise<MusicType | null> {
     try {
@@ -39,7 +39,7 @@ export async function loader({ params }: Route.LoaderArgs): Promise<MusicType | 
     }
 }
 
-export default function Home({ loaderData }: Route.ComponentProps) {
+export default function Slug({ loaderData }: Route.ComponentProps) {
     const { t } = useTranslation();
     if (!loaderData) {
         return (
