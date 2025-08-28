@@ -1,6 +1,7 @@
 import "@ant-design/v5-patch-for-react-19";
 import "./app.css";
 
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { data, Links, Meta, Outlet, Scripts, ScrollRestoration, useNavigation } from "react-router";
 
@@ -93,9 +94,11 @@ export function Layout({ children }: LayoutProps) {
 export default function App({ loaderData }: Route.ComponentProps) {
     const { i18n } = useTranslation();
 
-    if (loaderData.locale && i18n.language !== loaderData.locale) {
-        i18n.changeLanguage(loaderData.locale);
-    }
+    useEffect(() => {
+        if (loaderData.locale) {
+            i18n.changeLanguage(loaderData.locale);
+        }
+    }, [loaderData.locale, i18n]);
 
     return (
         <>
