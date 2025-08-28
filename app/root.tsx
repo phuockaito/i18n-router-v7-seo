@@ -82,20 +82,7 @@ export function Layout({ children }: LayoutProps) {
             </head>
             <body>
                 <TopLoader isLoading={isNavigating} />
-                <div className="max-w-screen-xl mx-auto px-4 py-8">
-                    <header className="mb-8">
-                        <div className="flex justify-between items-center">
-                            <div className="flex items-center gap-2">
-                                <h1 className="text-2xl font-bold">
-                                    I18Next React Router v7 (SEO)
-                                </h1>
-                                <img width={40} src={review} alt="review" />
-                            </div>
-                            <LanguageSwitcher />
-                        </div>
-                    </header>
-                    <Provider>{children}</Provider>
-                </div>
+                {children}
                 <ScrollRestoration />
                 <Scripts />
             </body>
@@ -113,7 +100,20 @@ export default function App({ loaderData }: Route.ComponentProps) {
     return (
         <>
             <ScrollProgress />
-            <Outlet />
+            <div className="max-w-screen-xl mx-auto px-4 py-8">
+                <header className="mb-8">
+                    <div className="flex justify-between items-center">
+                        <div className="flex items-center gap-2">
+                            <h1 className="text-2xl font-bold">I18Next React Router v7 (SEO)</h1>
+                            <img width={40} src={review} alt="review" />
+                        </div>
+                        <LanguageSwitcher />
+                    </div>
+                </header>
+                <Provider>
+                    <Outlet />
+                </Provider>
+            </div>
         </>
     );
 }
