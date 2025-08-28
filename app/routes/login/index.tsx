@@ -1,5 +1,6 @@
 import { Button, Form, Input, message } from "antd";
-import { redirect, useFetcher } from "react-router";
+import { useTranslation } from "react-i18next";
+import { Link, redirect, useFetcher } from "react-router";
 
 import { useAccount } from "@/hooks";
 import { commitSession, getSession } from "@/sessions.server";
@@ -32,7 +33,7 @@ interface LoginForm {
 export default function Login() {
     const fetcher = useFetcher();
     const { mutationLogin } = useAccount();
-
+    const { t } = useTranslation();
     const handleSubmit = (data: LoginForm) => {
         mutationLogin.mutate(data, {
             onSuccess: (data) => {
@@ -53,41 +54,46 @@ export default function Login() {
     };
 
     return (
-        <div className="flex justify-center items-center h-screen max-w-md mx-auto w-full">
-            <Form
-                className="w-full"
-                layout="vertical"
-                onFinish={handleSubmit}
-                disabled={mutationLogin.isPending}
-                size="large"
-            >
-                <h1 className="text-2xl font-bold mb-4">Login</h1>
-                <Form.Item<LoginForm>
-                    label="Email"
-                    name="email"
-                    rules={[
-                        { required: true, message: "Please input your email!" },
-                        { type: "email", message: "Please input a valid email!" },
-                    ]}
-                >
-                    <Input />
-                </Form.Item>
-                <Form.Item<LoginForm>
-                    label="Password"
-                    name="password"
-                    rules={[{ required: true, message: "Please input your password!" }]}
-                >
-                    <Input.Password />
-                </Form.Item>
-                <Button
+        <div>
+            <div className="flex justify-center items-center h-screen max-w-md mx-auto w-full">
+                <Form
                     className="w-full"
-                    type="primary"
-                    htmlType="submit"
-                    loading={mutationLogin.isPending}
+                    layout="vertical"
+                    onFinish={handleSubmit}
+                    disabled={mutationLogin.isPending}
+                    size="large"
                 >
-                    Submit
-                </Button>
-            </Form>
+                    <div className="flex justify-between items-center">
+                        <h1 className="text-2xl font-bold mb-4">Login</h1>
+                        <Link to="/">{t("Home")}</Link>
+                    </div>
+                    <Form.Item<LoginForm>
+                        label="Email"
+                        name="email"
+                        rules={[
+                            { required: true, message: "Please input your email!" },
+                            { type: "email", message: "Please input a valid email!" },
+                        ]}
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item<LoginForm>
+                        label="Password"
+                        name="password"
+                        rules={[{ required: true, message: "Please input your password!" }]}
+                    >
+                        <Input.Password />
+                    </Form.Item>
+                    <Button
+                        className="w-full"
+                        type="primary"
+                        htmlType="submit"
+                        loading={mutationLogin.isPending}
+                    >
+                        Submit
+                    </Button>
+                </Form>
+            </div>
         </div>
     );
 }
