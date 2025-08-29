@@ -10,4 +10,12 @@ export default {
     "/": "/",
     "Go to Github": "Go to Github",
     "/gioi-thieu": "/about-us",
+    "Enter your email": "Enter your email",
+    "Enter your password": "Enter your password",
+    "Please input your email!": "Please input your email!",
+    "Please input a valid email!": "Please input a valid email!",
+    "Please input your password!": "Please input your password!",
+    "Login failed": "Login failed",
+    "Invalid email or password": "Invalid email or password",
+    "Submitting...": "Submitting...",
 };

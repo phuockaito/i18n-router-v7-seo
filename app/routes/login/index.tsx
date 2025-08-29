@@ -1,8 +1,9 @@
 import { Button, Form, Input, message } from "antd";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import { Link, redirect, useFetcher } from "react-router";
 
-import { useAccount } from "@/hooks";
+import { AccountApi } from "@/api";
 import { commitSession, getSession } from "@/sessions.server";
 
 import type { Route } from "../+types";
@@ -13,18 +14,35 @@ export async function loader({ request }: Route.LoaderArgs) {
     if (accessToken) {
         return redirect("/");
     }
-    return {};
+    return Response.json(
+        {
+            error: "Logged in successfully",
+        },
+        { status: 400 },
+    );
 }
 
 export async function action({ request }: Route.ActionArgs) {
     const formData = await request.formData();
-    const accessToken = formData.get("accessToken");
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
     const session = await getSession(request.headers.get("Cookie"));
-    session.set("accessToken", accessToken);
-    return redirect("/", {
-        headers: { "Set-Cookie": await commitSession(session) },
-    });
+    try {
+        const { accessToken } = await AccountApi.login({ email, password });
+        session.set("accessToken", accessToken);
+        return redirect("/", {
+            headers: { "Set-Cookie": await commitSession(session) },
+        });
+    } catch {
+        return Response.json(
+            {
+                error: "Invalid email or password",
+            },
+            { status: 400 },
+        );
+    }
 }
+
 interface LoginForm {
     email: string;
     password: string;
@@ -32,35 +50,32 @@ interface LoginForm {
 
 export default function Login() {
     const fetcher = useFetcher();
-    const { mutationLogin } = useAccount();
     const { t } = useTranslation();
     const handleSubmit = (data: LoginForm) => {
-        mutationLogin.mutate(data, {
-            onSuccess: (data) => {
-                fetcher.submit(
-                    {
-                        accessToken: data.accessToken,
-                    },
-                    {
-                        method: "POST",
-                    },
-                );
-                message.success("Login successful");
+        fetcher.submit(
+            {
+                email: data.email,
+                password: data.password,
             },
-            onError: (error: any) => {
-                message.error(error.message);
+            {
+                method: "POST",
             },
-        });
+        );
     };
 
+    React.useEffect(() => {
+        if (fetcher.data) {
+            message.error(t(fetcher.data.error));
+        }
+    }, [fetcher.data, t]);
+
     return (
-        <div>
-            <div className="flex justify-center items-center h-screen max-w-md mx-auto w-full">
+        <div className="flex justify-center items-center min-h-[calc(100vh-200px)] max-w-md mx-auto w-full">
+            <div className="w-full max-w-2xl p-6 shadow-md bg-white rounded-lg">
                 <Form
-                    className="w-full"
                     layout="vertical"
                     onFinish={handleSubmit}
-                    disabled={mutationLogin.isPending}
+                    disabled={fetcher.state === "submitting"}
                     size="large"
                 >
                     <div className="flex justify-between items-center">
@@ -71,26 +86,26 @@ export default function Login() {
                         label="Email"
                         name="email"
                         rules={[
-                            { required: true, message: "Please input your email!" },
-                            { type: "email", message: "Please input a valid email!" },
+                            { required: true, message: t("Please input your email!") },
+                            { type: "email", message: t("Please input a valid email!") },
                         ]}
                     >
-                        <Input />
+                        <Input placeholder={t("Enter your email")} />
                     </Form.Item>
                     <Form.Item<LoginForm>
                         label="Password"
                         name="password"
-                        rules={[{ required: true, message: "Please input your password!" }]}
+                        rules={[{ required: true, message: t("Please input your password!") }]}
                     >
-                        <Input.Password />
+                        <Input.Password placeholder={t("Enter your password")} />
                     </Form.Item>
                     <Button
                         className="w-full"
                         type="primary"
                         htmlType="submit"
-                        loading={mutationLogin.isPending}
+                        loading={fetcher.state === "submitting"}
                     >
-                        Submit
+                        {t("Submit")}
                     </Button>
                 </Form>
             </div>

@@ -10,4 +10,12 @@ export default {
     "/": "/",
     "Go to Github": "Đi đến Github",
     "/gioi-thieu": "/about-us",
+    "Enter your email": "Nhập email của bạn",
+    "Enter your password": "Nhập mật khẩu của bạn",
+    "Please input your email!": "Vui lòng nhập email của bạn!",
+    "Please input a valid email!": "Vui lòng nhập email hợp lệ!",
+    "Please input your password!": "Vui lòng nhập mật khẩu của bạn!",
+    "Login failed": "Đăng nhập thất bại",
+    "Invalid email or password": "Email hoặc mật khẩu không đúng",
+    Submit: "Gửi",
 };

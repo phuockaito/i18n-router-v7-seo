@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import { data, Links, Meta, Outlet, Scripts, ScrollRestoration, useNavigation } from "react-router";
 
 import { review } from "@/assets";
-import { LanguageSwitcher, ScrollProgress, TopLoader } from "@/components";
+import { LanguageSwitcher, TopLoader } from "@/components";
 import { DOMAIN } from "@/constants";
 import { i18nextMiddleware } from "@/middleware/i18next";
 import { Provider } from "@/provider";
@@ -102,7 +102,6 @@ export default function App({ loaderData }: Route.ComponentProps) {
 
     return (
         <>
-            <ScrollProgress />
             <div className="max-w-screen-xl mx-auto px-4 py-8">
                 <header className="mb-8">
                     <div className="flex justify-between items-center">
