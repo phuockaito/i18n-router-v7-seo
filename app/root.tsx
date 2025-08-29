@@ -13,6 +13,7 @@ import { Provider } from "@/provider";
 import { LanguageType } from "@/types";
 
 import type { Route } from "./+types/root";
+import { getSession } from "./sessions.server";
 
 export const unstable_middleware = [i18nextMiddleware];
 export function meta() {
@@ -22,7 +23,7 @@ export function meta() {
         { name: "og:title", content: "I18Next React Router v7 (SEO)" },
         { name: "og:description", content: "I18Next React Router v7 (SEO)" },
         { name: "og:url", content: DOMAIN },
-        { name: "og:image", content: "/public/logo.png" },
+        { name: "og:image", content: review },
         { name: "og:type", content: "website" },
         { name: "og:site_name", content: "I18Next React Router v7 (SEO)" },
         { name: "og:locale", content: "en_US" },
@@ -30,9 +31,12 @@ export function meta() {
 }
 export async function loader({ request }: Route.LoaderArgs) {
     const { locale } = i18nextMiddleware(request);
+    const session = await getSession(request.headers.get("Cookie"));
+    const accessToken = session.get("accessToken");
     return data(
         {
             locale,
+            accessToken,
         },
         {
             headers: {
@@ -42,7 +46,6 @@ export async function loader({ request }: Route.LoaderArgs) {
         },
     );
 }
-
 export const links: Route.LinksFunction = () => [
     { rel: "preconnect", href: "https://fonts.googleapis.com" },
     {

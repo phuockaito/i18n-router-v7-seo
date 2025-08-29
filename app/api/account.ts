@@ -4,7 +4,7 @@ export const AccountApi = {
     login: (data: { email: string; password: string }): Promise<{ accessToken: string }> => {
         return axiosClient.post("account/login", data);
     },
-    getProfile: (accessToken: string): Promise<{ email: string; password: string }> => {
+    getProfile: (accessToken: string) => {
         return axiosClient.get("/account/profile", {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
